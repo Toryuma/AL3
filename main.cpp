@@ -7,7 +7,6 @@
 #include "TextureManager.h"
 #include "WinApp.h"
 
-
 // Windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	WinApp* win = nullptr;
@@ -21,7 +20,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	// ゲームウィンドウの作成
 	win = WinApp::GetInstance();
-	win->CreateGameWindow(L"LE2C_20_トウ_リュウマ_AL3");
+	win->CreateGameWindow();
 
 	// DirectX初期化処理
 	dxCommon = DirectXCommon::GetInstance();

@@ -4,31 +4,16 @@
 
 GameScene::GameScene() {}
 
-GameScene::~GameScene() { 
-	delete model_;
-	delete player_;
-}
+GameScene::~GameScene() {}
 
 void GameScene::Initialize() {
 
 	dxCommon_ = DirectXCommon::GetInstance();
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
-
-	textureHandle_ = TextureManager::Load("debugfont.png");
-
-	//モデル
-	viewProjection_.Initialize();
-	model_ = Model::Create();
-
-	//自キャラ
-	player_ = new Player();
-	player_->Initialize(model_,textureHandle_);
 }
 
-void GameScene::Update() { 
-	player_->Update(); 
-}
+void GameScene::Update() {}
 
 void GameScene::Draw() {
 
@@ -55,8 +40,6 @@ void GameScene::Draw() {
 
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
-	player_->Draw(viewProjection_);
-	
 	/// </summary>
 
 	// 3Dオブジェクト描画後処理

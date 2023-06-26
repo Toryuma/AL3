@@ -1,6 +1,8 @@
 #include "TextureManager.h"
+#include "StringUtility.h"
 #include <DirectXTex.h>
 #include <cassert>
+#include <format>
 
 using namespace DirectX;
 
@@ -107,7 +109,16 @@ uint32_t TextureManager::LoadInternal(const std::string& fileName) {
 
 	// WICテクスチャのロード
 	result = LoadFromWICFile(wfilePath, WIC_FLAGS_NONE, &metadata, scratchImg);
-	assert(SUCCEEDED(result));
+	if (FAILED(result)) {
+		auto message = std::format(
+		    L"テクスチャ「{0}」"
+		    "の読み込みに失敗しました。\n指定したパスが正しいか、必須リソースのコピー"
+		    "を忘れていないか確認してください。",
+		    ConvertStringMultiByteToWide(fileName));
+		MessageBoxW(nullptr, message.c_str(), L"Not found texture", 0);
+		assert(false);
+		exit(1);
+	}
 
 	ScratchImage mipChain{};
 	// ミップマップ生成
@@ -168,8 +179,8 @@ uint32_t TextureManager::LoadInternal(const std::string& fileName) {
 	srvDesc.Texture2D.MipLevels = (UINT)metadata.mipLevels;
 
 	device_->CreateShaderResourceView(
-	    texture.resource.Get(), //ビューと関連付けるバッファ
-	    &srvDesc,               //テクスチャ設定情報
+	    texture.resource.Get(), // ビューと関連付けるバッファ
+	    &srvDesc,               // テクスチャ設定情報
 	    texture.cpuDescHandleSRV);
 
 	useTable_.Set(handle);
